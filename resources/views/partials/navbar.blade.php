@@ -2,7 +2,7 @@
     <!-- Navbar Brand-->
     <a class="navbar-brand ps-1" href="{{ route('home.index') }}"><img style="width: 30px" class="rounded" src="{{ asset('/images/logo.jpg') }}"> Newcoral Ecofriendly</a>
     <!-- Sidebar Toggle-->
-    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 pl-2" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 </nav>
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
