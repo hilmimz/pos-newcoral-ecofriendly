@@ -11,49 +11,49 @@
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Seller</div>
                     <a class="nav-link" href="{{ route('inputpenjualan.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-pen"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-pen fa-fw"></i></div>
                         Input Penjualan
                     </a>
                     <a class="nav-link" href="{{ route('riwayatpenjualan.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-clock-rotate-left"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-clock-rotate-left fa-fw"></i></div>
                         Riwayat Penjualan
                     </a>
                     <a class="nav-link" href="{{ route('terimabarang.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-truck-ramp-box"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-truck-ramp-box fa-fw"></i></div>
                         Terima Barang
                     </a>
                     @can('admin')
                     <div class="sb-sidenav-menu-heading">Admin</div>
                     <a class="nav-link" href="{{ route('pengiriman.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-paper-plane"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-paper-plane fa-fw"></i></div>
                         Pengiriman Barang
                     </a>
                     <a class="nav-link" href="{{ route('daftarpenjual.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-users fa-fw"></i></div>
                         Daftar Penjual
                     </a>
                     <a class="nav-link" href="{{ route('penjualan.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-table fa-fw"></i></div>
                         Penjualan
                     </a>
                     <a class="nav-link" href="{{ route('barang.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-shirt"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fas fa-shirt fa-fw"></i></div>
                         Daftar Barang
                     </a>
                     <a class="nav-link" href="{{ route('kategori.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-grip"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-grip fa-fw"></i></div>
                         Daftar Kategori
                     </a>
                     <a class="nav-link" href="{{ route('bahan.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-brands fa-pagelines"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-brands fa-pagelines fa-fw"></i></div>
                         Daftar Bahan
                     </a>
                     <a class="nav-link" href="{{ route('warna.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-palette"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-palette fa-fw"></i></div>
                         Daftar Warna
                     </a>
                     <a class="nav-link" href="{{ route('cabang.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-shop fa-fw"></i></div>
                         Daftar Cabang
                     </a>
                     @endcan
