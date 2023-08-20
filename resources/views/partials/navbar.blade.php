@@ -28,10 +28,6 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-paper-plane"></i></div>
                         Pengiriman Barang
                     </a>
-                    <a class="nav-link" href="{{ route('stokbarang.index') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-cube"></i></div>
-                        Stok Barang
-                    </a>
                     <a class="nav-link" href="{{ route('daftarpenjual.index') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Daftar Penjual
