@@ -46,7 +46,7 @@
                                                 <input class="form-control" name="password" type="password" placeholder="Password" />
                                                 <label for="inputPassword">Password</label>
                                             </div>
-                                                <label for="cabang_role">Cabang/Role:</label>
+                                                <label for="cabang_role">Cabang</label>
                                                 <select class="form-select" aria-label="Pilih nama produk" name="cabang" id="cabang_role">
                                                     @foreach ($cabangs as $cabang)
                                                     <option value="{{ $cabang->cabang_id }}">Cabang {{ $cabang->nama }}</option>
