@@ -130,12 +130,17 @@ class BarangController extends Controller
         ]);
         UkuranProduk::where('prod_id',$id)->delete();
         foreach ($request->ukuran_barang as $key => $value) {
+            $kode_produk = rand(1000000,9999999);
+            // Cek apakah kode produk unik
+            while ($this->is_unique($kode_produk) == false) {
+                $kode_produk = rand(1000000,9999999);
+            }
             UkuranProduk::create([
                 'prod_id'      => $id,
-                'ukuran_id'    => $value
+                'ukuran_id'    => $value,
+                'kode_produk'   => $kode_produk
             ]);
         }
-        
 
         return redirect()->route('barang.index')->with(['success' => 'Data Berhasil Diperbarui!']);
     }
