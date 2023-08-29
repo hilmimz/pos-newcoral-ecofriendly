@@ -62,13 +62,25 @@ class InputPenjualanController extends Controller
         }
         $user_id = Auth::user()->user_id;
         $cabang_id = $request->session()->get('cabang_id');
-        $id = PenjualanSPG::create([
-            'metode_pembayaran' => $request->metode_pembayaran,
-            'spg_id' => $user_id,
-            'tanggal' => Carbon::now(),
-            'waktu' => Carbon::now()->format('H:i:m'),
-            'cabang_id' => $cabang_id
-        ])->penjualan_spg_id;
+        if ($request->jenis_penjualan == 'spg') {
+            $id = PenjualanSPG::create([
+                'metode_pembayaran' => $request->metode_pembayaran,
+                'spg_id' => $user_id,
+                'tanggal' => Carbon::now(),
+                'waktu' => Carbon::now()->format('H:i:m'),
+                'cabang_id' => $cabang_id
+            ])->penjualan_spg_id;
+        }
+        elseif ($request->jenis_penjualan == 'fo') {
+            $id = PenjualanSPG::create([
+                'metode_pembayaran' => $request->metode_pembayaran,
+                'spg_id' => $user_id,
+                'tanggal' => Carbon::now(),
+                'waktu' => Carbon::now()->format('H:i:m'),
+                'cabang_id' => $cabang_id,
+                'is_fo' => 1
+            ])->penjualan_spg_id;
+        }
 
         foreach ($request->addmore as $key => $value) {
             $ukuran_id = UkuranProduk::where('prod_id', $value['nama_produk'])->where('ukuran_id',$value['ukuran_produk'])->pluck('ukuran_produk_id')->first();

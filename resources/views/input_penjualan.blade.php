@@ -13,17 +13,18 @@
         <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-    @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+        </ul>
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
         <label for="barcode-input">Kode Barang: </label>
-        <input type="text" id="barcode-input" class="form-control mb-2" autofocus> 
+        <input type="text" id="barcode-input" class="form-control mb-2" autofocus>
         <table class="table table-bordered mb-4" id="dynamicTable2">  
             <tr>
                 <th style="width:40%">Nama Produk</th>
@@ -49,11 +50,17 @@
                 <td><button type="button" name="add" id="add" class="btn btn-success" disabled>Add</button></td>  
             </tr>
         </table>
+        <hr style="height: 2px; color: black;">
     <h5>Daftar barang</h5>
     <form action="{{ route('inputpenjualan.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <label for="jenis_penjualan">Jenis Penjualan: </label>
+        <select class="form-control mb-2" aria-label="Pilih jenis penjualan" name="jenis_penjualan" id="jenis_penjualan" style="width: 100%">
+            <option value="spg">SPG</option>
+            <option value="fo">FO</option>
+        </select>
         <label for="nama_produk">Metode Pembayaran</label>
-            <select class="form-select mb-2" aria-label="Pilih cabang tujuan" name="metode_pembayaran">
+            <select class="form-control mb-2" aria-label="Pilih cabang tujuan" name="metode_pembayaran">
                 @foreach ($metode_pembayarans as $metode_pembayaran)
                 <option value="{{ $metode_pembayaran->metode_pembayaran_id }}">{{ $metode_pembayaran->nama }}</option>
                 @endforeach
@@ -68,8 +75,9 @@
                 <th>Action</th>
             </tr>
         </table>
-        <h5>Total Harga:</h5>
-        <div id="total_harga"></div>
+        <h5 style="display: inline">Total Harga:</h5>
+        <h5 id="total_harga" style="display: inline"></h5>
+        <br>
         <button type="submit" class="btn btn-primary mt-3" name="kirim" id="kirim" disabled>Input</button>
     </form>
     
@@ -130,6 +138,12 @@
             }
         });
 
+        $('#jumlah').keypress(function(e) {
+            if (e.key === 'Enter') {
+                $('#add').click();
+            }
+        });
+
         $("#add").click(function(){
             var id_produk = $('#id').val();
             var nama_produk = $('#id option:selected').text();
@@ -144,12 +158,18 @@
             getHarga(id_produk,ukuran_produk, function(harga){
     
             // $("#dynamicTable").append('<tr><td><select class="form-select" aria-label="Pilih nama produk" name="addmore['+i+'][id_produk]" id="addmore['+i+'][id_produk]" style="width: 100%"><option>==Pilih Ukuran==</option>@foreach ($products as $product)<option value="{{ $product->product_id }}">{{ $product->nama }}</option>@endforeach</select></td><td><select class="form-select" aria-label="Pilih nama produk" name="addmore['+i+'][ukuran_produk]" id="addmore['+i+'][ukuran_produk]" style="width: 100%"><option>==Pilih Ukuran==</option></select></td><td><input type="text" name="addmore['+i+'][jumlah_produk]" placeholder="Masukkan jumlah" class="form-control" /></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
-            
-                $("#dynamicTable").append('<tr><td><select class="form-select" name="addmore['+i+'][nama_produk]" id="addmore['+i+'][nama_produk]" style="width: 100%" required disabled="disabled"><option value="'+id_produk+'">'+nama_produk+'</option></select><input type="hidden" name="addmore['+i+'][nama_produk]" id="addmore['+i+'][nama_produk]" value="'+id_produk+'" /></td><td><select class="form-select" name="addmore['+i+'][ukuran_produk]" id="addmore['+i+'][ukuran_produk]" style="width: 100%" required disabled="disabled"><option value="'+ukuran_produk+'">'+nama_ukuran+'</option></select><input type="hidden" name="addmore['+i+'][ukuran_produk]" id="addmore['+i+'][ukuran_produk]" value="'+ukuran_produk+'" /></td> <td><input type="text" name="addmore['+i+'][jumlah_produk] id="addmore['+i+'][jumlah_produk]" readonly="readonly" value="'+jumlah_produk+'"></td> <td><input type="text" name="addmore['+i+'][harga_produk]" readonly="readonly" value="'+harga+'"></td> <td><input type="text" class="total-harga-item" name="addmore['+i+'][total]" id="addmore['+i+'][total]" readonly="readonly" value="'+jumlah_produk*harga+'"></td> <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
+                // var is_duplicate = false;
+                // $('.nama_produk').each(function(){
+                //         if ($(this).val() == id_produk) {
+                //             console.log($(this).attr());
+                //         }
+                // });
+                // console.log(is_duplicate); 
+                $("#dynamicTable").append('<tr><td><select class="form-select" name="addmore['+i+'][nama_produk]" id="addmore['+i+'][nama_produk]" style="width: 100%" required disabled="disabled"><option value="'+id_produk+'">'+nama_produk+'</option></select><input type="hidden" name="addmore['+i+'][nama_produk]" id="addmore['+i+'][nama_produk]" class="nama_produk" value="'+id_produk+'" /></td><td><select class="form-select" name="addmore['+i+'][ukuran_produk]" id="addmore['+i+'][ukuran_produk]" style="width: 100%" required disabled="disabled"><option value="'+ukuran_produk+'">'+nama_ukuran+'</option></select><input type="hidden" name="addmore['+i+'][ukuran_produk]" id="addmore['+i+'][ukuran_produk]" value="'+ukuran_produk+'" /></td> <td><input type="text" name="addmore['+i+'][jumlah_produk] id="addmore['+i+'][jumlah_produk]" readonly="readonly" value="'+jumlah_produk+'"></td> <td><input type="text" name="addmore['+i+'][harga_produk]" readonly="readonly" value="'+harga+'"></td> <td><input type="text" class="total-harga-item" name="addmore['+i+'][total]" id="addmore['+i+'][total]" readonly="readonly" value="'+jumlah_produk*harga+'"></td> <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr>');
                 ++i;
                 disableKirim(i);
 
-                calculateTotalHarga();
+                calculateTotalHarga();  
                 
             });
             $('#barcode-input').trigger('focus');

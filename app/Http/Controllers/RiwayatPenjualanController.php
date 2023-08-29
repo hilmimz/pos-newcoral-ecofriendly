@@ -13,7 +13,7 @@ class RiwayatPenjualanController extends Controller
      */
     public function index()
     {
-        $penjualanspg = PenjualanSPG::where('spg_id', Auth::user()->user_id)->get();
+        $penjualanspg = PenjualanSPG::where('spg_id', Auth::user()->user_id)->where('is_fo', 0)->get();
         return view('table_riwayat_penjualan',compact('penjualanspg'));
     }
 
