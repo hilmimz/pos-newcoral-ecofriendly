@@ -53,10 +53,19 @@ class InputPenjualanController extends Controller
             'addmore.*.jumlah_produk' => 'required | integer',
             'metode_pembayaran' => 'required'
         ]);
+        $produk_dibeli = array();
         foreach ($request->addmore as $key => $value) {
             $ukuran_id = UkuranProduk::where('prod_id', $value['nama_produk'])->where('ukuran_id',$value['ukuran_produk'])->pluck('ukuran_produk_id')->first();
-            $cabang_stok = CabangStok::where('ukuran_produk',$ukuran_id)->where('cab_id',$request->session()->get('cabang_id'))->first();
-            if ($cabang_stok->stok < $value['jumlah_produk']) {
+            if (array_key_exists($ukuran_id, $produk_dibeli)) {
+                $produk_dibeli[$ukuran_id] = $produk_dibeli[$ukuran_id] + $value['jumlah_produk'];
+            }
+            else {
+                $produk_dibeli[$ukuran_id] = (int)$value['jumlah_produk'];
+            }
+        }
+        foreach ($produk_dibeli as $key => $value) {
+            $cabang_stok = CabangStok::where('ukuran_produk',$key)->where('cab_id',$request->session()->get('cabang_id'))->first();
+            if ($cabang_stok->stok < $value) {
                 return Redirect::back()->withErrors(['msg' => 'Jumlah produk yang dibeli melebihi stok']);
             }
         }
@@ -82,16 +91,17 @@ class InputPenjualanController extends Controller
             ])->penjualan_spg_id;
         }
 
-        foreach ($request->addmore as $key => $value) {
-            $ukuran_id = UkuranProduk::where('prod_id', $value['nama_produk'])->where('ukuran_id',$value['ukuran_produk'])->pluck('ukuran_produk_id')->first();
+        foreach ($produk_dibeli as $key => $value) {
+            $ukuran_id = $key;
+            $jumlah = $value;
             $item_terjual = ItemTerjual::create([
-                'jumlah' => $value['jumlah_produk'],
+                'jumlah' => $jumlah,
                 'ukuran_produk' => $ukuran_id,
                 'penjualan_id' => $id
             ]);
             $cabang_stok = CabangStok::where('ukuran_produk',$ukuran_id)->where('cab_id',$request->session()->get('cabang_id'))->first();
             $cabang_stok->update([
-                'stok' => $cabang_stok->stok - $value['jumlah_produk']
+                'stok' => $cabang_stok->stok - $jumlah
             ]);
         }
         return redirect()->route('inputpenjualan.index')->with(['success' => 'Data Berhasil Disimpan!']);
