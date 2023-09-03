@@ -50,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('home', HomeController::class);
 
+    Route::match(['get'], 'inputpenjualan/cetak_pdf',[InputPenjualanController::class, 'cetak_pdf'])->name('inputpenjualan.cetak_Pdf');
+    // Route::get('/inputpenjualan/cetak_pdf', 'InputPenjualanController@cetak_pdf');
     Route::resource('inputpenjualan', InputPenjualanController::class);
 
     Route::resource('riwayatpenjualan', RiwayatPenjualanController::class);

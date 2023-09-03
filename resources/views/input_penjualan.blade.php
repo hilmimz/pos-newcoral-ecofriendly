@@ -10,6 +10,10 @@
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{session('success')}}
+        <a class="btn btn-primary pl-5" href="{{ url('inputpenjualan/cetak_pdf') }}" target="_blank" role="button">Cetak Nota</a>
+        {{-- <button type="button" class="btn btn-primary">
+            <a href="{{ url('inputpenjualan/cetak_pdf') }}" target="_blank">Cetak PDF</a>
+        </button> --}}
         <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
@@ -144,6 +148,10 @@
             }
         });
 
+        // $("#kirim").click(function () { 
+        //     $(this).prop('disabled', true);
+        // });
+
         $("#add").click(function(){
             var id_produk = $('#id').val();
             var nama_produk = $('#id option:selected').text();
@@ -196,11 +204,35 @@
             }
         }
 
+        function formatRupiah(angka, prefix){
+			var number_string = angka.replace(/[^,\d]/g, '').toString(),
+			split   		= number_string.split(','),
+			sisa     		= split[0].length % 3,
+			rupiah     		= split[0].substr(0, sisa),
+			ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+ 
+			// tambahkan titik jika yang di input sudah menjadi angka ribuan
+			if(ribuan){
+				separator = sisa ? '.' : '';
+				rupiah += separator + ribuan.join('.');
+			}
+ 
+			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+			return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+		}
+        
+        const rupiah = (number)=>{
+            return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR"
+            }).format(number);
+        }
         function calculateTotalHarga() {
             var total = 0;
             $('.total-harga-item').each(function() {
                 total += Number($(this).val());
             });
+            total = rupiah(total)
             $('#total_harga').text(total);
         }
 
@@ -242,45 +274,6 @@
                     $('#add').prop('disabled', true);
                 }
             });
-
-            /*$('#id').on('input change', function() {
-                if($(this).val() != '') {
-                    nama_bool = true;
-                } else {
-                    nama_bool = false;
-                }
-                if (nama_bool && ukuran_bool && jumlah_bool) {
-                    $('#add').prop('disabled', false);
-                } else {
-                    $('#add').prop('disabled', true);
-                }
-            });
-
-            $('#ukuran').on('input change', function() {
-                if($(this).val() != '') {
-                    ukuran_bool = true;
-                } else {
-                    ukuran_bool = false;
-                }
-                if (nama_bool && ukuran_bool && jumlah_bool) {
-                    $('#add').prop('disabled', false);
-                } else {
-                    $('#add').prop('disabled', true);
-                }
-            });
-
-            $('#jumlah').on('input change', function() {
-                if($(this).val() != '') {
-                    jumlah_bool = true;
-                } else {
-                    jumlah_bool = false;
-                }
-                if (nama_bool && ukuran_bool && jumlah_bool) {
-                    $('#add').prop('disabled', false);
-                } else {
-                    $('#add').prop('disabled', true);
-                }
-            });*/
         });
         
         
