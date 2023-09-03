@@ -27,4 +27,7 @@ class PenjualanSPG extends Model
     public function metodepembayaran(){
         return $this->belongsTo(MetodePembayaran::class,'metode_pembayaran','metode_pembayaran_id');
     }
+    public function cabang(){
+        return $this->belongsTo(Cabang::class,'cabang_id','cabang_id');
+    }
 }

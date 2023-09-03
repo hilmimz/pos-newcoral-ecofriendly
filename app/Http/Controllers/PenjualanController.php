@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PenjualanSPG;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
@@ -11,7 +13,9 @@ class PenjualanController extends Controller
      */
     public function index()
     {
-        return view('table_penjualan');
+        $now = Carbon::now()->format('Y-m-d');
+        $penjualanspg = PenjualanSPG::where('tanggal',$now)->get();
+        return view('table_penjualan',compact('penjualanspg'));
     }
 
     /**
