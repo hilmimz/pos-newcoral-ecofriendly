@@ -128,18 +128,38 @@ class BarangController extends Controller
             'bahan_id'    => $request->bahan_barang,
             'harga'    => $request->harga_barang
         ]);
-        UkuranProduk::where('prod_id',$id)->delete();
+        // UkuranProduk::where('prod_id',$id)->delete();
+        $new_size = array();
+        $deleted_size = array();
+        $ukuran_tersedia = UkuranProduk::where('prod_id',$id)->pluck('ukuran_id')->toArray();
         foreach ($request->ukuran_barang as $key => $value) {
-            $kode_produk = rand(1000000,9999999);
-            // Cek apakah kode produk unik
-            while ($this->is_unique($kode_produk) == false) {
-                $kode_produk = rand(1000000,9999999);
+            if (in_array($value,$ukuran_tersedia) == false) {
+                array_push($new_size,(int)$value);
             }
-            UkuranProduk::create([
-                'prod_id'      => $id,
-                'ukuran_id'    => $value,
-                'kode_produk'   => $kode_produk
-            ]);
+        }
+        foreach ($ukuran_tersedia as $key => $value) {
+            if (in_array($value,$request->ukuran_barang) == false) {
+                array_push($deleted_size,$value);
+            }
+        }
+        if ($new_size) {
+            foreach ($new_size as $key => $value) {
+                $kode_produk = rand(1000000,9999999);
+                // Cek apakah kode produk unik
+                while ($this->is_unique($kode_produk) == false) {
+                    $kode_produk = rand(1000000,9999999);
+                }
+                UkuranProduk::create([
+                    'prod_id'      => $id,
+                    'ukuran_id'    => $value,
+                    'kode_produk'   => $kode_produk
+                ]);
+            }
+        }
+        if ($deleted_size) {
+            foreach ($deleted_size as $key => $value) {
+                UkuranProduk::where('prod_id',$id)->where('ukuran_id',$value)->delete();
+            }
         }
 
         return redirect()->route('barang.index')->with(['success' => 'Data Berhasil Diperbarui!']);
