@@ -32,7 +32,7 @@
                         <select class="form-select" aria-label="Pilih nama produk" name="id" id="id" style="width: 100%">
                             <option value="">==Pilih Produk==</option>
                             @foreach ($products as $product)
-                            <option value="{{ $product->product_id }}">{{ $product->nama }}</option>
+                            <option value="{{ $product->product_id }}">{{ $product->nama }} | {{ $product->warnabaju->nama }} | {{ $product->bahan->nama }} </option>
                             @endforeach
                         </select>
                     </td>
