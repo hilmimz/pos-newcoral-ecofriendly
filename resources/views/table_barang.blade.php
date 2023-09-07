@@ -254,6 +254,7 @@
                             <th>Ukuran</th>
                             <th>Kode Produk</th>
                             <th>Barcode</th>
+                            <th>Print</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -262,6 +263,7 @@
                             <td>{{ $ukuranproduk->ukuran->nama }}</td>
                             <td>{{ $ukuranproduk->kode_produk }}</td>
                             <td><img src="data:image/png;base64,{!! DNS1D::getBarcodePNG($ukuranproduk->kode_produk, 'C128') !!}" alt="barcode"   /></td>
+                            <td><a href="{{ route('barang.barcode',$ukuranproduk->ukuran_produk_id) }}" type="button" class="btn btn-primary btn-sm"><i class="fa-solid fa-print"></i></a></td>
                         </tr>
                         @endforeach
                     </tbody>

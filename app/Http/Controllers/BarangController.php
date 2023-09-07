@@ -8,6 +8,7 @@ use App\Models\Warna;
 use App\Models\Bahan;
 use App\Models\Ukuran;
 use App\Models\UkuranProduk;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
@@ -181,5 +182,15 @@ class BarangController extends Controller
         } else {
             return true;
         }
+    }
+
+    public function getBarcodePaper($id){
+        $ukuran_produk = UkuranProduk::find($id);
+        $pdf = Pdf::loadview('barcode',with([
+            'ukuran_produk' => $ukuran_produk
+        ]));
+        $filename = "{$ukuran_produk->product->nama}_{$ukuran_produk->product->warnabaju->nama}_{$ukuran_produk->product->bahan->nama}_{$ukuran_produk->ukuran->nama}_barcode.pdf";
+        // $filename = $ukuran_produk->product->nama $ukuran_produk->product->warnabaju->nama $ukuran_produk->product->bahan->nama $ukuran_produk->ukuran->nama 
+        return $pdf->setPaper('A4')->stream($filename);
     }
 }

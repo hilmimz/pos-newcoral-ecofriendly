@@ -78,6 +78,7 @@ Route::middleware(['admin'])->group(function () {
 
     Route::resource('stokbarang', StokBarangController::class);
 
+    Route::get('barang/barcode/{id}', [BarangController::class,'getBarcodePaper'])->name('barang.barcode');
     Route::resource('barang', BarangController::class);
 
     Route::resource('bahan', BahanController::class);
