@@ -191,6 +191,6 @@ class BarangController extends Controller
         ]));
         $filename = "{$ukuran_produk->product->nama}_{$ukuran_produk->product->warnabaju->nama}_{$ukuran_produk->product->bahan->nama}_{$ukuran_produk->ukuran->nama}_barcode.pdf";
         // $filename = $ukuran_produk->product->nama $ukuran_produk->product->warnabaju->nama $ukuran_produk->product->bahan->nama $ukuran_produk->ukuran->nama 
-        return $pdf->setPaper('A4')->stream($filename);
+        return $pdf->setPaper('A4')->download($filename);
     }
 }
